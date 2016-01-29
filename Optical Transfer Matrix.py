@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Jan 29 12:11:42 2016
+
+@author: nick anthony
+"""
+
 from __future__ import division
 import numpy as np, matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -8,7 +15,8 @@ multilayer dielectric.
 '''
 
 def inter(n1,n2):
-    #Returns a matrix representing the interface between two dielectrics with indices n1 on the left and n2 on the right
+    #Returns a matrix representing the interface between two dielectrics with indices n1 on the left and n2 on the right.
+    #Actually the order of terms does not appear to matter.
     return 1/(2*n2)*np.matrix([[n2+n1,n2-n1],[n2-n1,n2+n1]])
 def prop(lamb,n,d):
     #Returns a matrix representing the propagation of light with wavelength, "lamb", through homogenous material wth index, "n",
@@ -30,21 +38,21 @@ representing each element of the system. If the transmitted light is considered
 to be propagating from left to right then the matrices should be in multiplied
 in reverse, from right to left.
 '''
-param=np.array([4/6,4/7,4/5])
+param=np.array([60,200,300,1000])
 
-R=np.zeros((500,len(param)))
-High_lambda=3000
-Low_lambda=300
+R=np.zeros((5000,len(param)))
+High_lambda=700
+Low_lambda=350
 
 for l in np.linspace(Low_lambda,High_lambda,num=R.shape[0]):
-    print '%d'%((l-Low_lambda)/(High_lambda-Low_lambda)*100)+'%'
+    print('%d'%((l-Low_lambda)/(High_lambda-Low_lambda)*100)+'%')
    
     for p in param:
         
         '''
         Here is the series of multiplied matrices
         '''
-        m=prop(l,1,1000)*np.linalg.matrix_power(inter(1,2)*prop(l,2,633/(2*p))*inter(2,1)*prop(l,1,633/p),10)
+        m=prop(l,1.53,1000)*inter(1.53,1.85)*prop(l,1.85,p)*inter(1.85,2.04)*prop(l,2.04,1000)
         
         
         
