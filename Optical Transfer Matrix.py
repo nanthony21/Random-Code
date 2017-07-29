@@ -38,21 +38,28 @@ representing each element of the system. If the transmitted light is considered
 to be propagating from left to right then the matrices should be in multiplied
 in reverse, from right to left.
 '''
-param=np.array([60,200,300,1000])
+
+
+
+param=np.array([1,2,3,10])
 
 R=np.zeros((5000,len(param)))
-High_lambda=700
-Low_lambda=350
+High_lambda=12000
+Low_lambda=500
+lp=7.5e3
+lb=lp*3/2
+
 
 for l in np.linspace(Low_lambda,High_lambda,num=R.shape[0]):
     print('%d'%((l-Low_lambda)/(High_lambda-Low_lambda)*100)+'%')
    
     for p in param:
-        
+        n3=1
+        n2=n3+p
         '''
         Here is the series of multiplied matrices
         '''
-        m=prop(l,1.53,1000)*inter(1.53,1.85)*prop(l,1.85,p)*inter(1.85,2.04)*prop(l,2.04,1000)
+        m=(prop(l,n3,lb/(4*n3))*inter(n3,n2)*prop(l,n2,lb/(4*n2))*inter(n2,n3))**10
         
         
         
